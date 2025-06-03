@@ -39,7 +39,7 @@ public class BeansController(IBeanService beanService, ILogger<BeansController> 
         }
     }
 
-    [HttpGet("search")]
+    [HttpGet("Search")]
     public async Task<ActionResult<IEnumerable<BeanDto>>> Search([FromQuery] string query)
     {
         try
