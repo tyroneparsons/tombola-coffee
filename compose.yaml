@@ -1,0 +1,7 @@
+﻿services:
+  tombola.coffee.webapi:
+    image: tombola.coffee.webapi
+    build:
+      context: .
+      dockerfile: Tombola.Coffee.WebApi/Dockerfile
+
