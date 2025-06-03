@@ -8,6 +8,10 @@ Accept: application/json
 GET {{Host}}/Beans/66a374590abf949489fb28f7
 Accept: application/json
 
+### Get bean of the day
+GET {{Host}}/Beans/OfTheDay
+Accept: application/json
+
 ### Create a bean
 POST {{Host}}/Beans
 Accept: application/json

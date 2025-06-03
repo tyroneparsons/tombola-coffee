@@ -1,79 +1,83 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Tombola.Coffee.WebApi.Data;
 using Tombola.Coffee.WebApi.Entities;
+using Tombola.Coffee.WebApi.Models;
+using Tombola.Coffee.WebApi.Services;
 
 namespace Tombola.Coffee.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class BeansController(ILogger<BeansController> logger, AppDbContext dbContext) : ControllerBase
+public class BeansController(IBeanService beanService, ILogger<BeansController> logger) : ControllerBase
 {
     private readonly ILogger<BeansController> _logger = logger;
 
     [HttpGet(Name = "GetBeans")]
-    public async Task<ActionResult<IEnumerable<Bean>>> Get()
+    public async Task<ActionResult<IEnumerable<BeanDto>>> Get()
     {
-        return await dbContext.Beans.ToListAsync();
+        var beans = await beanService.GetAllBeansAsync();
+        return Ok(beans);
     }
 
     [HttpGet("{id}", Name = "GetBeanById")]
-    public async Task<ActionResult<Bean>> GetById(string id)
+    public async Task<ActionResult<BeanDto>> GetById(string id)
     {
-        var bean = await dbContext.Beans.FindAsync(id);
-
-        if (bean == null)
+        var bean = await beanService.GetBeanByIdAsync(id);
+        return bean == null ? NotFound() : Ok(bean);
+    }
+    
+    [HttpGet("OfTheDay", Name = "GetBeanOfTheDay")]
+    public async Task<ActionResult<BeanDto>> GetBeanOfTheDay()
+    {
+        try
         {
-            return NotFound();
+            var bean = await beanService.GetBeanOfTheDayAsync();
+            return Ok(bean);
         }
-
-        return bean;
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 
     [HttpPost(Name = "CreateBean")]
-    public async Task<ActionResult<Bean>> Create(Bean bean)
+    public async Task<ActionResult<BeanDto>> Create(Bean bean)
     {
-        if (dbContext.Beans.Any(b => b.Id == bean.Id))
+        try
+        {
+            var createdBean = await beanService.CreateBeanAsync(bean);
+            return CreatedAtAction(nameof(GetById), new { id = createdBean.Id }, createdBean);
+        }
+        catch (InvalidOperationException)
         {
             return Conflict();
         }
-        
-        dbContext.Beans.Add(bean);
-
-        await dbContext.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetById), new { id = bean.Id }, bean);
     }
 
     [HttpPut("{id}", Name = "UpdateBean")]
     public async Task<IActionResult> Update(string id, Bean bean)
     {
-        if (!dbContext.Beans.Any(b => b.Id == id))
+        try
+        {
+            await beanService.UpdateBeanAsync(id, bean);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
         {
             return NotFound();
         }
-
-        dbContext.Beans.Update(bean);
-
-        await dbContext.SaveChangesAsync();
-
-        return NoContent();
     }
 
     [HttpDelete("{id}", Name = "DeleteBean")]
     public async Task<IActionResult> Delete(string id)
     {
-        var bean = await dbContext.Beans.FindAsync(id);
-
-        if (bean == null)
+        try
+        {
+            await beanService.DeleteBeanAsync(id);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
         {
             return NotFound();
         }
-
-        dbContext.Beans.Remove(bean);
-
-        await dbContext.SaveChangesAsync();
-
-        return NoContent();
     }
 }
