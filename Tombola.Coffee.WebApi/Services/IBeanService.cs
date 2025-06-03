@@ -8,6 +8,7 @@ public interface IBeanService
     Task<IEnumerable<BeanDto>> GetAllBeansAsync();
     Task<BeanDto?> GetBeanByIdAsync(string id);
     Task<BeanDto> GetBeanOfTheDayAsync();
+    Task<IEnumerable<BeanDto>> SearchBeansAsync(string searchTerm);
     Task<BeanDto> CreateBeanAsync(Bean bean);
     Task UpdateBeanAsync(string id, Bean bean);
     Task DeleteBeanAsync(string id);

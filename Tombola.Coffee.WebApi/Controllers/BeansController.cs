@@ -24,7 +24,7 @@ public class BeansController(IBeanService beanService, ILogger<BeansController> 
         var bean = await beanService.GetBeanByIdAsync(id);
         return bean == null ? NotFound() : Ok(bean);
     }
-    
+
     [HttpGet("OfTheDay", Name = "GetBeanOfTheDay")]
     public async Task<ActionResult<BeanDto>> GetBeanOfTheDay()
     {
@@ -36,6 +36,21 @@ public class BeansController(IBeanService beanService, ILogger<BeansController> 
         catch (InvalidOperationException ex)
         {
             return NotFound(ex.Message);
+        }
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<BeanDto>>> Search([FromQuery] string query)
+    {
+        try
+        {
+            var results = await beanService.SearchBeansAsync(query);
+            return Ok(results);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while searching beans");
+            return StatusCode(500, "An error occurred while processing your request");
         }
     }
 

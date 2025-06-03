@@ -12,6 +12,10 @@ Accept: application/json
 GET {{Host}}/Beans/OfTheDay
 Accept: application/json
 
+### Search beans
+GET {{Host}}/Beans/search?query=brazil
+Accept: application/json
+
 ### Create a bean
 POST {{Host}}/Beans
 Accept: application/json

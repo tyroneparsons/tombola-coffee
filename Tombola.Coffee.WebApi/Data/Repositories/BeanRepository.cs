@@ -33,6 +33,22 @@ public class BeanRepository(AppDbContext context) : IBeanRepository
             .FirstAsync();
     }
 
+    public async Task<IEnumerable<Bean>> SearchAsync(string searchTerm)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+            return await GetAllAsync();
+
+        searchTerm = searchTerm.Trim().ToLower();
+        
+        return await context.Beans
+            .Where(b => 
+                b.Name.ToLower().Contains(searchTerm) ||
+                b.Description.ToLower().Contains(searchTerm) ||
+                b.Country.ToLower().Contains(searchTerm) ||
+                b.Colour.ToLower().Contains(searchTerm))
+            .ToListAsync();
+    }
+
     public async Task<Bean> CreateAsync(Bean bean)
     {
         var existingBean = await context.Beans.FindAsync(bean.Id);

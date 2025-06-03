@@ -25,7 +25,7 @@ public class BeanService(IBeanRepository repository) : IBeanService
     {
         var bean = await repository.GetByIdAsync(id);
         if (bean == null) return null;
-        
+
         return new BeanDto
         {
             Id = bean.Id,
@@ -51,6 +51,22 @@ public class BeanService(IBeanRepository repository) : IBeanService
             Country = bean.Country,
             Image = bean.Image
         };
+    }
+
+
+    public async Task<IEnumerable<BeanDto>> SearchBeansAsync(string searchTerm)
+    {
+        var beans = await repository.SearchAsync(searchTerm);
+        return beans.Select(b => new BeanDto
+        {
+            Id = b.Id,
+            Name = b.Name,
+            Description = b.Description,
+            Cost = b.Cost,
+            Colour = b.Colour,
+            Country = b.Country,
+            Image = b.Image
+        });
     }
 
     public async Task<BeanDto> CreateBeanAsync(Bean bean)
