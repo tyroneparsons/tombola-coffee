@@ -27,8 +27,6 @@ I've started by setting up a solution with a standard controller-based Web API. 
 
 As this is a technical test, I've set up SQLite, so it is straightforward to run locally.
 
-I considered using the repository pattern here, but for simplicity (YAGNI principle) I stuck with just a service as a single layer of abstraction.
-
 I've set up a simple Bean Dto so fields can optionally be returned for security + flexibility.
 
 I've snuck the Bean Of the Day feature into the call to get the bean of the day. This means that at every call, there is a little overhead in checking if the bean of the day already exists. In practice, I would use something like a hosted service, cron job or AWS Lambda function to manage something like this. I opted to keep this simple so that the solution is easy to set up and run.
