@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Tombola.Coffee.WebApi.Data;
+using Tombola.Coffee.WebApi.Data.Repositories;
 using Tombola.Coffee.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite((builder.Configuration.GetConnectionString(("DefaultConnection")))));
 
+builder.Services.AddScoped<IBeanRepository, BeanRepository>();
 builder.Services.AddScoped<IBeanService, BeanService>();
 
 var app = builder.Build();

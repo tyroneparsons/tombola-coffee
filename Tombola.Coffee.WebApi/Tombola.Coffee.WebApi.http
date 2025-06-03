@@ -37,7 +37,7 @@ Content-Type: application/json
   "name": "Brazilian Santos",
   "description": "A smooth, mild coffee bean with a light to medium body and low acidity",
   "cost": 42.99,
-  "colour": "Green",
+  "colour": "Light Brown1",
   "country": "Brazil",
   "image": "/images/brazilian-santos.jpg"
 }
