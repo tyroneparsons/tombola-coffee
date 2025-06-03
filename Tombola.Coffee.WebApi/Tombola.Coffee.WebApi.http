@@ -1,0 +1,43 @@
+@Host = http://localhost:5035
+
+### Get all beans
+GET {{Host}}/Beans/
+Accept: application/json
+
+### Get bean by id
+GET {{Host}}/Beans/66a374590abf949489fb28f7
+Accept: application/json
+
+### Create a bean
+POST {{Host}}/Beans
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "66a374590abf949489fb28f7",
+  "name": "Brazilian Santos",
+  "description": "A smooth, mild coffee bean with a light to medium body and low acidity",
+  "cost": 12.99,
+  "colour": "Light Brown",
+  "country": "Brazil",
+  "image": "/images/brazilian-santos.jpg"
+}
+
+### Update a bean
+PUT {{Host}}/Beans/66a374590abf949489fb28f7
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "66a374590abf949489fb28f7",
+  "name": "Brazilian Santos",
+  "description": "A smooth, mild coffee bean with a light to medium body and low acidity",
+  "cost": 42.99,
+  "colour": "Green",
+  "country": "Brazil",
+  "image": "/images/brazilian-santos.jpg"
+}
+
+### Delete a bean
+DELETE {{Host}}/Beans/66a374590abf949489fb28f7
+Accept: application/json
