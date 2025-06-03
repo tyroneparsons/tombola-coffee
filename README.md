@@ -8,7 +8,9 @@ Run from the root of the solution:
   dotnet ef --project Tombola.Coffee.WebApi database update
 ```
 
-### Run Web Api
+I've included an SQLite database in the repository I would usually exclude that can be used in case there are any issues with running migrations.
+
+### Run
 Use the http launch profile to run the Web API on port 5035.
 It should start at http://localhost:5035.
 
@@ -18,7 +20,7 @@ You can test the API using the provided Tombola.Coffee.WebApi.http or the by nav
 ## Approach
 The below are some notes I will have filled in throughout the technical exercise to detail my thought process.
 
-I was thinking of completing both scenarios to close the loop between backend API and frontend as the two scenarios are closely coupled. If time permits, I'll also consider setting up a docker file to make it easier to run locally and deploy.
+I've tried to take a pragmatic approach to this.
 
 ### Web API
 I've started by setting up a solution with a standard controller-based Web API. I opted to stick with controllers over the alternative minimal APIs which can be performant out of the box, as controllers-based APIs are well understood. They are straightforward to follow and require less architectural decisions beneficial in the context of technical tests where you want to timebox the work. In practice, I would consider using minimal APIs as a first option for performance reasons.
